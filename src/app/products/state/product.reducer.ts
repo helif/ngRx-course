@@ -1,4 +1,6 @@
-export function reducer(state, action) {
+import { ProductState } from "./product-state";
+
+export function reducer(state:ProductState, action) {
 
     switch(action.type) {
         case 'TOGGLE_PRODUCT_CODE':
