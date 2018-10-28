@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from './auth.service';
-import { Store, select } from '@ngrx/store';
+import { UserState } from './state/user.state';
+import * as fromUser from './state/user.reducer';
+import { MaskUserName, LoginUser } from './state/user.actions';
 
 @Component({
   templateUrl: './login.component.html',
@@ -12,20 +15,17 @@ import { Store, select } from '@ngrx/store';
 export class LoginComponent implements OnInit {
   pageTitle = 'Log In';
   errorMessage: string;
-
   maskUserName: boolean;
 
   constructor(private authService: AuthService,
-              private store: Store<any>,
+              private store: Store<UserState>,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select('users')).subscribe(
-      users => {
-        if (users) {
-          this.maskUserName = users.maskUserName
-        }
+    this.store.pipe(select(fromUser.getMaskUserName)).subscribe(
+      maskUserName => {
+        this.maskUserName = maskUserName        
       })
   }
 
@@ -35,18 +35,23 @@ export class LoginComponent implements OnInit {
 
   checkChanged(value: boolean): void {
     // this.maskUserName = value;
-    this.store.dispatch({
-      type: 'MASK_USER_NAME',
-      payload: value
-    })
+    // this.store.dispatch({
+    //   type: 'MASK_USER_NAME',
+    //   payload: value
+    // })
+    this.store.dispatch(new MaskUserName(value));
   }
 
   login(loginForm: NgForm): void {
     if (loginForm && loginForm.valid) {
-      const userName = loginForm.form.value.userName;
-      const password = loginForm.form.value.password;
-      this.authService.login(userName, password);
-
+      // const userName = loginForm.form.value.userName;
+      // const password = loginForm.form.value.password;
+      // this.authService.login(userName, password);
+      this.store.dispatch(new LoginUser({
+        userName:loginForm.form.value.userName,
+        password:loginForm.form.value.password
+      }));
+      
       if (this.authService.redirectUrl) {
         this.router.navigateByUrl(this.authService.redirectUrl);
       } else {

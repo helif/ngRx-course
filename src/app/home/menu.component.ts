@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../user/auth.service';
+import { Store } from '@ngrx/store';
+import { UserState } from '../user/state/user.state';
+import { getCurrentUser, getCurrentUserName } from '../user/state/user.reducer';
+import { LogoutUser } from '../user/state/user.actions';
 
 @Component({
   selector: 'pm-menu',
@@ -10,25 +14,35 @@ import { AuthService } from '../user/auth.service';
 export class MenuComponent implements OnInit {
   pageTitle = 'Acme Product Management';
 
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
+  public isLoggedIn: boolean = false;
+  // get isLoggedIn(): boolean {
+    // return this.authService.isLoggedIn();
+  // }
 
-  get userName(): string {
-    if (this.authService.currentUser) {
-      return this.authService.currentUser.userName;
-    }
-    return '';
-  }
+  public userName:string = '';
+  // get userName(): string {
+    // if (this.authService.currentUser) {
+    //   return this.authService.currentUser.userName;
+    // }
+    // return '';
+  // }
 
   constructor(private router: Router,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private store:Store<UserState>) { }
 
   ngOnInit() {
+    this.store.select(getCurrentUserName).subscribe(
+      userName => this.userName = userName
+    );
+
+    this.store.select(getCurrentUser).subscribe(
+      currentUser => this.isLoggedIn = currentUser != null
+    )
   }
 
   logOut(): void {
-    this.authService.logout();
+    this.store.dispatch(new LogoutUser());
     this.router.navigate(['/welcome']);
   }
 }
