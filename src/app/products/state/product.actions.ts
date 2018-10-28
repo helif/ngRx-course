@@ -3,9 +3,10 @@ import { Product } from "../product";
 
 export enum ProductActionTypes {
     ToggleProductCode = "[Product][Toggle][ProductCode]",
-    SetCurrentProduct = "[Product][Set][CurrectProduct]",
-    ClearCurrentProduct = "[Product][Clear][CurrectProduct]",
-    InitCurrentProduct = "[Product][Init][CurrectProduct]",
+    AddNewProduct = "[Product][Add][NewProduct]",
+    SetCurrentProduct = "[Product][Set][CurrentProduct]",
+    ClearCurrentProduct = "[Product][Clear][CurrentProduct]",
+    InitCurrentProduct = "[Product][Init][CurrentProduct]",
     LoadProducts = "[Product][Load]",
     LoadProductsSuccess = "[Product][Load][Success]",
     LoadProductsFailure = "[Product][Load][Failure]",
@@ -21,6 +22,11 @@ export class ToggleProductCode implements Action {
     readonly type = ProductActionTypes.ToggleProductCode;
 
     constructor(public payload:boolean) {}
+}
+export class AddNewProduct implements Action {
+    readonly type = ProductActionTypes.AddNewProduct;
+
+    constructor(public payload:Product) {}
 }
 
 export class SetCurrentProduct implements Action {
@@ -59,13 +65,11 @@ export class UpdateProduct implements Action {
     constructor(public payload:Product){}
 }
 
-
 export class UpdateProductSuccess implements Action {
     readonly type = ProductActionTypes.UpdateProductSuccess;
 
     constructor(public payload:Product){}
 }
-
 
 export class UpdateProductFailure implements Action {
     readonly type = ProductActionTypes.UpdateProductFailure;
@@ -92,7 +96,8 @@ export class CreateProductFailure implements Action {
 }
 
 export type ProductActions = ToggleProductCode 
-    | SetCurrentProduct 
+    | SetCurrentProduct
+    | AddNewProduct
     | ClearCurrentProduct 
     | InitCurrentProduct
     | LoadProducts

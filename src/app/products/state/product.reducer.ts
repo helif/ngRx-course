@@ -68,6 +68,15 @@ export function reducer(state = initialState, action:ProductActions): ProductSta
                 currentProductId: action.payload.id
             }
         
+        case ProductActionTypes.AddNewProduct:
+            const newProductList = state.products.slice();
+            newProductList.push(action.payload);
+            return {
+                ...state,
+                currentProductId: action.payload.id,
+                products: newProductList,
+            }
+        
         case ProductActionTypes.InitCurrentProduct:
             return {
                 ...state,
@@ -75,9 +84,11 @@ export function reducer(state = initialState, action:ProductActions): ProductSta
             };
 
         case ProductActionTypes.ClearCurrentProduct:
+            const cleanedProducts = state.products.filter(product => product.id !== state.currentProductId);
             return {
                 ...state,
-                currentProductId: null
+                currentProductId: null,
+                products: cleanedProducts
             };
 
         case ProductActionTypes.LoadProductsSuccess:
