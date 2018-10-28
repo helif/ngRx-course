@@ -15,17 +15,7 @@ export class MenuComponent implements OnInit {
   pageTitle = 'Acme Product Management';
 
   public isLoggedIn: boolean = false;
-  // get isLoggedIn(): boolean {
-    // return this.authService.isLoggedIn();
-  // }
-
   public userName:string = '';
-  // get userName(): string {
-    // if (this.authService.currentUser) {
-    //   return this.authService.currentUser.userName;
-    // }
-    // return '';
-  // }
 
   constructor(private router: Router,
               private authService: AuthService,

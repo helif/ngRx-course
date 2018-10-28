@@ -57,9 +57,6 @@ export function reducer(state = initialState, action:ProductActions): ProductSta
 
     switch(action.type) {
         case ProductActionTypes.ToggleProductCode:
-            // console.log('existing state: ' + JSON.stringify(state));
-            // console.log('payload:' + action.payload);
-
             return {
                 ...state,
                 showProductCode: action.payload

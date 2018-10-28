@@ -34,24 +34,16 @@ export class LoginComponent implements OnInit {
   }
 
   checkChanged(value: boolean): void {
-    // this.maskUserName = value;
-    // this.store.dispatch({
-    //   type: 'MASK_USER_NAME',
-    //   payload: value
-    // })
     this.store.dispatch(new MaskUserName(value));
   }
 
   login(loginForm: NgForm): void {
     if (loginForm && loginForm.valid) {
-      // const userName = loginForm.form.value.userName;
-      // const password = loginForm.form.value.password;
-      // this.authService.login(userName, password);
       this.store.dispatch(new LoginUser({
         userName:loginForm.form.value.userName,
         password:loginForm.form.value.password
       }));
-      
+
       if (this.authService.redirectUrl) {
         this.router.navigateByUrl(this.authService.redirectUrl);
       } else {

@@ -6,14 +6,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-    // currentUser: User | null;
     redirectUrl: string;
-
-    // constructor() {  }
-
-    // isLoggedIn(): boolean {
-    //     return !!this.currentUser;
-    // }
 
     login(userName: string, password: string): Observable<User> {
         // Code here would log into a back end service
@@ -26,8 +19,4 @@ export class AuthService {
             isAdmin: false
         });
     }
-
-    // logout(): void {
-    //     this.currentUser = null;
-    // }
 }
